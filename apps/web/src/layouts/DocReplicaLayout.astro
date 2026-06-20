@@ -1,0 +1,20 @@
+---
+import type { DocReplica } from "../lib/doc-replica";
+
+interface Props {
+  doc: DocReplica;
+}
+
+const { doc } = Astro.props;
+---
+
+<!DOCTYPE html>
+<html lang={doc.lang} class={doc.htmlClass}>
+  <head>
+    <Fragment set:html={doc.headHtml} />
+  </head>
+  <body class={doc.bodyClass}>
+    <Fragment set:html={doc.bodyHtml} />
+  </body>
+</html>
+

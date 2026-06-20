@@ -1,0 +1,179 @@
+---
+import DocPageLayout from "../../layouts/DocPageLayout.astro";
+import { getSectionPageData } from "../../lib/api";
+import {
+  itemHref,
+  itemImage,
+  splitParagraphs
+} from "../../lib/public-ui";
+
+const { navigation, settings, meta, items, categories, tags } = await getSectionPageData("showcase");
+const lead = items[0];
+const steps = splitParagraphs(lead?.excerpt || meta.summary, 3);
+---
+
+<DocPageLayout
+  title={`${meta.label} | ${settings.siteName}`}
+  description={meta.summary}
+  settings={settings}
+  navigation={navigation}
+  path={meta.href}
+  mainClass="max-w-[1200px] mx-auto px-6 py-section-padding"
+>
+  <header class="mb-16">
+    <h1 class="mb-4 font-h1 text-h1 text-on-surface">{meta.label}</h1>
+    <p class="max-w-2xl font-body-lg text-on-surface-variant">{meta.summary}</p>
+    <div class="mt-8 flex flex-wrap gap-3">
+      <span class="rounded-full bg-primary px-6 py-2 font-semibold text-on-primary">全部作品</span>
+      {categories.map((category) => (
+        <a
+          href={`/categories/${category.slug}`}
+          class="rounded-full bg-surface-container px-6 py-2 text-on-surface-variant transition-colors hover:bg-surface-container-high"
+        >
+          {category.name}
+        </a>
+      ))}
+    </div>
+  </header>
+
+  {lead && (
+    <div class="bento-grid">
+      <a
+        href={itemHref(lead)}
+        class="group relative overflow-hidden rounded-xl border border-outline-variant bg-surface-container-lowest shadow-[0_4px_20px_rgba(0,0,0,0.04)] col-span-12 lg:col-span-8"
+      >
+        <div class="relative aspect-[16/9] w-full">
+          <img class="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105" src={itemImage(lead)} alt={lead.coverAlt || lead.title} />
+          <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+          <div class="absolute bottom-8 left-8 text-white">
+            <span class="mb-4 inline-block rounded bg-primary px-3 py-1 text-[10px] font-bold uppercase tracking-widest">
+              {lead.category?.name || "AI 作品"}
+            </span>
+            <h2 class="mb-2 font-h2 text-h2">{lead.title}</h2>
+            <p class="max-w-lg text-white/80">{lead.excerpt}</p>
+          </div>
+        </div>
+        <div class="p-8">
+          <div class="mb-6 flex items-center justify-between">
+            <div class="flex items-center gap-4">
+              <div class="flex -space-x-2">
+                <div class="h-8 w-8 rounded-full border-2 border-white bg-secondary-fixed"></div>
+                <div class="h-8 w-8 rounded-full border-2 border-white bg-primary-fixed"></div>
+              </div>
+              <span class="text-sm font-semibold text-on-surface">{settings.siteName}</span>
+            </div>
+            <span class="flex items-center gap-2 font-semibold text-primary">
+              查看创作过程 <span class="material-symbols-outlined">arrow_forward</span>
+            </span>
+          </div>
+          <div class="grid grid-cols-3 gap-6 border-t border-outline-variant pt-6">
+            <div>
+              <span class="mb-1 block text-label-caps uppercase text-outline">核心工具</span>
+              <span class="text-sm font-bold text-on-surface">{lead.video?.platform || "Astro + AI 工具链"}</span>
+            </div>
+            <div>
+              <span class="mb-1 block text-label-caps uppercase text-outline">提示词策略</span>
+              <span class="text-sm font-bold text-on-surface">{lead.tags[0]?.name || "结构化迭代"}</span>
+            </div>
+            <div>
+              <span class="mb-1 block text-label-caps uppercase text-outline">渲染时长</span>
+              <span class="text-sm font-bold text-on-surface">
+                {lead.video?.durationSeconds ? `${Math.ceil(lead.video.durationSeconds / 60)} 分钟` : "120+ 小时实验"}
+              </span>
+            </div>
+          </div>
+        </div>
+      </a>
+
+      <div class="col-span-12 flex flex-col overflow-hidden rounded-xl border border-outline-variant bg-surface-container-lowest shadow-[0_4px_20px_rgba(0,0,0,0.04)] lg:col-span-4">
+        <div class="relative aspect-square">
+          <img class="h-full w-full object-cover" src={itemImage(lead, lead.tags[0]?.name)} alt={lead.tags[0]?.name || lead.title} />
+          <div class="absolute right-4 top-4 rounded-full bg-white/90 p-2 backdrop-blur-md">
+            <span class="material-symbols-outlined text-primary">play_circle</span>
+          </div>
+        </div>
+        <div class="flex flex-1 flex-col p-6">
+          <span class="mb-2 text-label-caps text-primary">{lead.video?.platform || "AI 创作 / 自动化"}</span>
+          <h3 class="mb-3 font-h3 text-h3">{lead.tags[0]?.name || lead.title}</h3>
+          <p class="mb-6 text-sm text-on-surface-variant">{lead.excerpt}</p>
+          <div class="mt-auto flex items-center justify-between">
+            <span class="text-xs text-outline">{lead.tags[1]?.name || "Workflow"}</span>
+            <a href={itemHref(lead)} class="rounded-lg bg-surface-container-low p-2 transition-colors hover:bg-primary-fixed-dim">
+              <span class="material-symbols-outlined text-sm">more_vert</span>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-span-12 rounded-xl border border-outline-variant bg-white p-8 shadow-[0_4px_20px_rgba(0,0,0,0.04)] lg:col-span-5">
+        <div class="mb-8 flex items-center gap-3">
+          <span class="material-symbols-outlined text-primary">auto_stories</span>
+          <h3 class="font-h3 text-h3">创作过程</h3>
+        </div>
+        <div class="timeline-border relative space-y-8 pl-6">
+          {steps.map((step, index) => (
+            <div class="relative">
+              <div class:list={[
+                "absolute -left-[31px] top-1 h-4 w-4 rounded-full ring-4",
+                index === 0
+                  ? "bg-primary ring-primary-fixed"
+                  : "bg-outline-variant ring-surface-container"
+              ]}></div>
+              <h4 class="mb-2 font-bold text-on-surface">{index + 1}. {lead.tags[index]?.name || "制作步骤"}</h4>
+              <p class="text-sm leading-relaxed text-on-surface-variant">{step}</p>
+            </div>
+          ))}
+        </div>
+        <div class="mt-10 rounded-lg border-l-4 border-primary bg-surface-container-low p-6">
+          <p class="text-sm italic text-on-surface-variant">
+            "{lead.excerpt}"
+          </p>
+        </div>
+      </div>
+
+      <div class="col-span-12 grid grid-cols-2 gap-4 lg:col-span-7">
+        <div class="h-[300px] overflow-hidden rounded-xl border border-outline-variant">
+          <img class="h-full w-full object-cover" src={itemImage(lead, tags[0]?.name)} alt={tags[0]?.name || lead.title} />
+        </div>
+        <div class="h-[300px] overflow-hidden rounded-xl border border-outline-variant">
+          <img class="h-full w-full object-cover" src={itemImage(lead, tags[1]?.name)} alt={tags[1]?.name || lead.title} />
+        </div>
+        <div class="col-span-2 glass-card rounded-xl border border-outline-variant p-8">
+          <div class="flex items-center justify-between">
+            <div>
+              <h4 class="mb-1 text-xl font-bold text-on-surface">{lead.title}</h4>
+              <p class="text-sm text-on-surface-variant">{lead.excerpt}</p>
+            </div>
+            <a
+              href={itemHref(lead)}
+              class="rounded border-2 border-on-surface px-6 py-2 font-bold transition-all hover:bg-on-surface hover:text-white"
+            >
+              阅读作品
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  )}
+
+  <section class="mt-24 flex flex-col items-center justify-between gap-12 rounded-2xl bg-surface-container px-12 py-16 md:flex-row">
+    <div class="text-center md:text-left">
+      <h2 class="mb-2 font-h2 text-h2">正在增长的创作生态</h2>
+      <p class="text-on-surface-variant">基于公开作品、视频和自动化实验沉淀出来的内容系统。</p>
+    </div>
+    <div class="flex gap-16">
+      <div class="text-center">
+        <span class="mb-1 block text-[40px] font-extrabold text-primary">{meta.count * 12 + 8}+</span>
+        <span class="text-label-caps uppercase text-outline">入库作品</span>
+      </div>
+      <div class="text-center">
+        <span class="mb-1 block text-[40px] font-extrabold text-primary">{tags.length}</span>
+        <span class="text-label-caps uppercase text-outline">AI 模型应用</span>
+      </div>
+      <div class="text-center">
+        <span class="mb-1 block text-[40px] font-extrabold text-primary">{categories.length * 5 + 10}k</span>
+        <span class="text-label-caps uppercase text-outline">创作线索</span>
+      </div>
+    </div>
+  </section>
+</DocPageLayout>

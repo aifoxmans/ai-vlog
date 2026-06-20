@@ -1,0 +1,80 @@
+---
+import AdminLayout from "../layouts/AdminLayout.astro";
+---
+
+<AdminLayout title="Northstar Console | Dashboard">
+  <div class="toolbar">
+    <div>
+      <span class="admin-kicker">Dashboard</span>
+      <h1>系统概览</h1>
+      <p>查看发布状态、近期内容和站点基础信息。</p>
+    </div>
+    <a href="/contents/new">新建内容</a>
+  </div>
+
+  <section class="stats-grid" id="stats-grid">
+    <article class="admin-card"><span class="admin-kicker">Published</span><strong>--</strong></article>
+    <article class="admin-card"><span class="admin-kicker">Drafts</span><strong>--</strong></article>
+    <article class="admin-card"><span class="admin-kicker">Featured</span><strong>--</strong></article>
+    <article class="admin-card"><span class="admin-kicker">Tags</span><strong>--</strong></article>
+  </section>
+
+  <section class="panel-grid">
+    <article class="list-shell">
+      <div class="toolbar">
+        <div>
+          <span class="admin-kicker">Recent content</span>
+          <h2>最近更新</h2>
+        </div>
+      </div>
+      <div id="recent-list"></div>
+    </article>
+  </section>
+
+    <script>
+      import { apiRequest, redirectIfMissingToken } from "../lib/api.ts";
+
+      redirectIfMissingToken();
+
+      const statsGrid = document.getElementById("stats-grid");
+      const recentList = document.getElementById("recent-list") as HTMLDivElement | null;
+
+      const labels = ["publishedCount", "draftCount", "featuredCount", "tagCount"];
+
+      apiRequest("/api/admin/dashboard")
+      .then((data) => {
+        const cards = statsGrid?.querySelectorAll("strong") || [];
+        labels.forEach((key, index) => {
+          if (cards[index]) {
+            cards[index].textContent = String(data.stats[key as keyof typeof data.stats]);
+          }
+        });
+
+        if (!recentList) return;
+        recentList.innerHTML = (data.recent as Array<{
+          id: string;
+          section: string;
+          status: string;
+          title: string;
+          excerpt: string;
+          tags?: Array<{ name: string }>;
+        }>)
+          .map(
+            (item) => `
+              <article class="list-item">
+                <span class="admin-kicker">${item.section} / ${item.status}</span>
+                <strong>${item.title}</strong>
+                <p>${item.excerpt}</p>
+                <div class="pill-row">
+                  ${(item.tags || []).map((tag: { name: string }) => `<span>#${tag.name}</span>`).join("")}
+                </div>
+                <a class="secondary-button" href="/contents/new?id=${item.id}">编辑内容</a>
+              </article>`
+          )
+          .join("");
+      })
+      .catch(() => {
+        window.location.href = "/login";
+      });
+  </script>
+</AdminLayout>

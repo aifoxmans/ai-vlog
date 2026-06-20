@@ -1,0 +1,31 @@
+---
+import type { SiteSettings } from "@ai-vlog/shared";
+
+interface Props {
+  settings: SiteSettings;
+}
+
+const { settings } = Astro.props;
+---
+
+<footer class="site-shell footer-shell">
+  <div class="footer-grid">
+    <div>
+      <div class="footer-title">{settings.siteName}</div>
+      <p class="footer-copy">{settings.siteDescription}</p>
+    </div>
+    <div>
+      <p class="footer-heading">定位</p>
+      <p class="footer-copy">个人博客、企业官网、中小型工具站，统一在一套轻量内容系统内完成。</p>
+    </div>
+    <div>
+      <p class="footer-heading">入口</p>
+      <div class="footer-links">
+        {settings.socialLinks.map((item) => (
+          <a href={item.href}>{item.label}</a>
+        ))}
+      </div>
+    </div>
+  </div>
+</footer>
+

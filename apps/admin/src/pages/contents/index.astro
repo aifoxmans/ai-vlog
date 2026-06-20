@@ -1,0 +1,96 @@
+---
+import AdminLayout from "../../layouts/AdminLayout.astro";
+---
+
+<AdminLayout title="Northstar Console | Contents">
+  <div class="toolbar">
+    <div>
+      <span class="admin-kicker">Contents</span>
+      <h1>内容管理</h1>
+      <p>按状态或关键词筛选，进入内容编辑页完成发布与更新。</p>
+    </div>
+    <a href="/contents/new">新建内容</a>
+  </div>
+
+  <section class="form-shell">
+    <form id="filter-form" class="form-grid">
+      <div class="field">
+        <label class="field-label" for="status">状态</label>
+        <select id="status" name="status">
+          <option value="">全部</option>
+          <option value="published">published</option>
+          <option value="draft">draft</option>
+        </select>
+      </div>
+      <div class="field">
+        <label class="field-label" for="search">关键词</label>
+        <input id="search" name="search" placeholder="输入标题或摘要关键词" />
+      </div>
+      <div class="field full">
+        <button class="primary-button" type="submit">刷新列表</button>
+      </div>
+    </form>
+  </section>
+
+  <section class="list-shell" id="content-list"></section>
+
+    <script>
+      import { apiRequest, redirectIfMissingToken } from "../../lib/api.ts";
+
+      redirectIfMissingToken();
+
+      const list = document.getElementById("content-list") as HTMLElement | null;
+      const form = document.getElementById("filter-form") as HTMLFormElement | null;
+
+      async function load() {
+      if (!list || !form) return;
+      const params = new URLSearchParams();
+      for (const [key, value] of new FormData(form).entries()) {
+        params.append(String(key), String(value));
+      }
+      const query = params.toString();
+      const data = await apiRequest(`/api/admin/contents${query ? `?${query}` : ""}`);
+
+      list.innerHTML = (data.items as Array<{
+        id: string;
+        section: string;
+        status: string;
+        title: string;
+        excerpt: string;
+        tags?: Array<{ name: string }>;
+      }>)
+        .map(
+          (item) => `
+            <article class="list-item">
+              <span class="admin-kicker">${item.section} / ${item.status}</span>
+              <strong>${item.title}</strong>
+              <p>${item.excerpt}</p>
+              <div class="pill-row">
+                ${(item.tags || []).map((tag: { name: string }) => `<span>#${tag.name}</span>`).join("")}
+              </div>
+              <div class="toolbar">
+                <a class="secondary-button" href="/contents/new?id=${item.id}">编辑</a>
+                <button class="secondary-button" type="button" data-delete="${item.id}">删除</button>
+              </div>
+            </article>`
+        )
+        .join("");
+
+      list.querySelectorAll("[data-delete]").forEach((button) => {
+        button.addEventListener("click", async () => {
+          const id = button.getAttribute("data-delete");
+          if (!id || !confirm("确认删除这篇内容？")) return;
+          await apiRequest(`/api/admin/contents/${id}`, { method: "DELETE" });
+          await load();
+        });
+      });
+    }
+
+    form?.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      await load();
+    });
+
+    load().catch(() => (window.location.href = "/login"));
+  </script>
+</AdminLayout>

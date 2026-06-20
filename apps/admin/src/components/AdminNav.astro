@@ -1,0 +1,47 @@
+---
+interface Item {
+  href: string;
+  label: string;
+}
+
+interface Props {
+  currentPath: string;
+}
+
+const { currentPath } = Astro.props;
+
+const items: Item[] = [
+  { href: "/dashboard", label: "仪表盘" },
+  { href: "/contents", label: "内容" },
+  { href: "/taxonomies", label: "分类与标签" },
+  { href: "/settings", label: "站点设置" }
+];
+---
+
+<aside class="admin-side">
+  <a href="/dashboard" class="admin-brand">
+    <span>Northstar</span>
+    <strong>Console</strong>
+  </a>
+  <nav class="admin-nav">
+    {items.map((item) => (
+      <a href={item.href} class:list={{ active: currentPath === item.href || currentPath.startsWith(`${item.href}/`) }}>
+        {item.label}
+      </a>
+    ))}
+  </nav>
+  <button id="logout-button" class="logout-button" type="button">退出登录</button>
+</aside>
+
+<script>
+  import { apiRequest, tokenKey } from "../lib/api.ts";
+
+  const button = document.getElementById("logout-button");
+  button?.addEventListener("click", async () => {
+    try {
+      await apiRequest("/api/admin/auth/logout", { method: "POST", body: "{}" });
+    } catch {}
+    localStorage.removeItem(tokenKey);
+    window.location.href = "/login";
+  });
+</script>

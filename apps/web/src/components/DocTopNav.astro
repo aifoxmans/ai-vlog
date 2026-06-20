@@ -1,0 +1,57 @@
+---
+import type { NavigationItem, SiteSettings } from "@ai-vlog/shared";
+
+interface Props {
+  navigation: NavigationItem[];
+  currentPath: string;
+  settings: SiteSettings;
+}
+
+const { navigation, currentPath, settings } = Astro.props;
+const defaultAdminOrigin = `${Astro.url.protocol}//${Astro.url.hostname}:4322`;
+const signInUrl = import.meta.env.PUBLIC_ADMIN_APP_URL || new URL("/login", defaultAdminOrigin).toString();
+---
+
+<header class="sticky top-0 z-50 w-full border-b border-gray-100 bg-white/80 shadow-[0_4px_20px_rgba(0,0,0,0.04)] backdrop-blur-md">
+  <div class="mx-auto flex h-20 max-w-[1200px] items-center justify-between gap-6 px-6 font-inter tracking-tight antialiased">
+    <a href="/" class="text-xl font-bold tracking-tighter text-gray-900">
+      {settings.siteName}
+    </a>
+    <nav class="hidden items-center gap-6 lg:flex" aria-label="主导航">
+      {navigation.map((item) => {
+        const active = item.href === "/"
+          ? currentPath === "/"
+          : currentPath === item.href || currentPath.startsWith(`${item.href}/`);
+
+        return (
+          <a
+            href={item.href}
+            class:list={[
+              "font-medium transition-colors duration-200",
+              active
+                ? "border-b-2 border-blue-600 pb-1 font-semibold text-blue-600"
+                : "text-gray-500 hover:text-gray-900"
+            ]}
+          >
+            {item.label}
+          </a>
+        );
+      })}
+    </nav>
+    <div class="flex items-center gap-4">
+      <a
+        href="/search"
+        class="flex h-10 w-10 items-center justify-center rounded-full text-gray-500 transition-colors hover:bg-surface-container hover:text-primary"
+        aria-label="搜索"
+      >
+        <span class="material-symbols-outlined">search</span>
+      </a>
+      <a
+        href={signInUrl}
+        class="rounded-lg bg-primary px-5 py-2 text-sm font-semibold text-on-primary transition-transform active:scale-95"
+      >
+        Sign In
+      </a>
+    </div>
+  </div>
+</header>

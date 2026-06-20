@@ -1,0 +1,4 @@
+interface:
+  display_name: "AI Vlog Publisher"
+  short_description: "Publish AI vlog sites and content APIs"
+  default_prompt: "Use $ai-vlog-publisher to prepare this AI vlog project for public Skill and API publication."

@@ -1,0 +1,35 @@
+---
+import type { NavigationItem, SiteSettings } from "@ai-vlog/shared";
+
+interface Props {
+  navigation: NavigationItem[];
+  currentPath: string;
+  settings: SiteSettings;
+}
+
+const { navigation, currentPath, settings } = Astro.props;
+const defaultAdminOrigin = `${Astro.url.protocol}//${Astro.url.hostname}:4322`;
+const adminUrl = import.meta.env.PUBLIC_ADMIN_APP_URL || new URL("/login", defaultAdminOrigin).toString();
+---
+
+<header class="site-shell">
+  <div class="topbar">
+    <a href="/" class="brand-mark">
+      <span class="brand-kicker">AI Vlog System</span>
+      <strong>{settings.siteName}</strong>
+    </a>
+    <nav class="primary-nav" aria-label="主导航">
+      {navigation.map((item) => (
+        <a href={item.href} class:list={{ active: currentPath === item.href || currentPath.startsWith(`${item.href}/`) }}>
+          {item.label}
+        </a>
+      ))}
+    </nav>
+    <div class="topbar-actions">
+      <a href="/search" class="ghost-link">搜索</a>
+      <a href={adminUrl} class="pill-link">
+        管理后台
+      </a>
+    </div>
+  </div>
+</header>

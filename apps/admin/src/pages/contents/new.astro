@@ -1,0 +1,193 @@
+---
+import AdminLayout from "../../layouts/AdminLayout.astro";
+---
+
+<AdminLayout title="Northstar Console | Editor">
+  <div class="toolbar">
+    <div>
+      <span class="admin-kicker">Editor</span>
+      <h1>内容编辑器</h1>
+      <p>支持草稿、发布、SEO 字段、标签和外链视频元数据。</p>
+    </div>
+    <a href="/contents">返回列表</a>
+  </div>
+
+  <section class="form-shell">
+    <form id="editor-form" class="form-grid">
+      <input type="hidden" name="id" />
+      <div class="field">
+        <label class="field-label" for="title">标题</label>
+        <input id="title" name="title" required />
+      </div>
+      <div class="field">
+        <label class="field-label" for="slug">Slug</label>
+        <input id="slug" name="slug" required />
+      </div>
+      <div class="field">
+        <label class="field-label" for="section">栏目</label>
+        <select id="section" name="section">
+          <option value="learn">learn</option>
+          <option value="venture">venture</option>
+          <option value="showcase">showcase</option>
+          <option value="journal">journal</option>
+          <option value="resources">resources</option>
+        </select>
+      </div>
+      <div class="field">
+        <label class="field-label" for="status">状态</label>
+        <select id="status" name="status">
+          <option value="draft">draft</option>
+          <option value="published">published</option>
+        </select>
+      </div>
+      <div class="field full">
+        <label class="field-label" for="excerpt">摘要</label>
+        <textarea id="excerpt" name="excerpt"></textarea>
+      </div>
+      <div class="field">
+        <label class="field-label" for="categorySlug">分类</label>
+        <select id="categorySlug" name="categorySlug"></select>
+      </div>
+      <div class="field">
+        <label class="field-label" for="tagSlugs">标签 Slugs</label>
+        <input id="tagSlugs" name="tagSlugs" placeholder="seo,workers,automation" />
+      </div>
+      <div class="field">
+        <label class="field-label" for="coverImage">封面图</label>
+        <input id="coverImage" name="coverImage" />
+      </div>
+      <div class="field">
+        <label class="field-label" for="readingTime">阅读时长</label>
+        <input id="readingTime" name="readingTime" type="number" min="1" />
+      </div>
+      <div class="field">
+        <label class="field-label" for="seoTitle">SEO 标题</label>
+        <input id="seoTitle" name="seoTitle" />
+      </div>
+      <div class="field">
+        <label class="field-label" for="seoDescription">SEO 描述</label>
+        <input id="seoDescription" name="seoDescription" />
+      </div>
+      <div class="field">
+        <label class="field-label" for="videoPlatform">视频平台</label>
+        <input id="videoPlatform" name="videoPlatform" placeholder="youtube / bilibili" />
+      </div>
+      <div class="field">
+        <label class="field-label" for="videoEmbedUrl">视频嵌入链接</label>
+        <input id="videoEmbedUrl" name="videoEmbedUrl" />
+      </div>
+      <div class="field full">
+        <label class="field-label" for="bodyMarkdown">正文 Markdown</label>
+        <textarea id="bodyMarkdown" name="bodyMarkdown"></textarea>
+      </div>
+      <div class="field full">
+        <label><input type="checkbox" id="featured" name="featured" /> 设为首页精选</label>
+      </div>
+      <div class="field full">
+        <button class="primary-button" type="submit">保存内容</button>
+        <p id="editor-status" class="status-line"></p>
+      </div>
+    </form>
+  </section>
+
+    <script>
+      import { apiRequest, redirectIfMissingToken } from "../../lib/api.ts";
+
+      redirectIfMissingToken();
+
+      const form = document.getElementById("editor-form") as HTMLFormElement | null;
+      const status = document.getElementById("editor-status") as HTMLParagraphElement | null;
+      const categorySelect = document.getElementById("categorySlug") as HTMLSelectElement | null;
+      const params = new URLSearchParams(window.location.search);
+      const id = params.get("id");
+
+    function setFieldValue(name: string, value: string) {
+      const field = form?.querySelector(`[name="${name}"]`);
+      if (!(field instanceof HTMLInputElement || field instanceof HTMLTextAreaElement || field instanceof HTMLSelectElement)) {
+        return;
+      }
+      field.value = value ?? "";
+    }
+
+    async function loadCategories() {
+      const categories = await apiRequest("/api/admin/categories");
+      if (!categorySelect) return;
+      categorySelect.innerHTML = `<option value="">未分类</option>` +
+        (categories as Array<{ slug: string; name: string }>)
+          .map((item: { slug: string; name: string }) => `<option value="${item.slug}">${item.name}</option>`)
+          .join("");
+    }
+
+    async function loadContent() {
+      if (!id) return;
+      const data = await apiRequest(`/api/admin/contents/${id}`);
+      setFieldValue("id", data.id);
+      setFieldValue("title", data.title);
+      setFieldValue("slug", data.slug);
+      setFieldValue("section", data.section);
+      setFieldValue("status", data.status);
+      setFieldValue("excerpt", data.excerpt);
+      setFieldValue("categorySlug", data.category?.slug || "");
+      setFieldValue("tagSlugs", ((data.tags || []) as Array<{ slug: string }>).map((tag: { slug: string }) => tag.slug).join(","));
+      setFieldValue("coverImage", data.coverImage || "");
+      setFieldValue("readingTime", String(data.readingTime || ""));
+      setFieldValue("seoTitle", data.seo?.title || "");
+      setFieldValue("seoDescription", data.seo?.description || "");
+      setFieldValue("videoPlatform", data.video?.platform || "");
+      setFieldValue("videoEmbedUrl", data.video?.embedUrl || "");
+      setFieldValue("bodyMarkdown", data.bodyMarkdown || "");
+      const featuredField = form?.querySelector('[name="featured"]');
+      if (featuredField instanceof HTMLInputElement) {
+        featuredField.checked = Boolean(data.featured);
+      }
+    }
+
+    form?.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      if (!form) return;
+      const formData = new FormData(form);
+      const payload = {
+        id: formData.get("id") || undefined,
+        title: formData.get("title"),
+        slug: formData.get("slug"),
+        section: formData.get("section"),
+        status: formData.get("status"),
+        excerpt: formData.get("excerpt"),
+        categorySlug: formData.get("categorySlug") || undefined,
+        tagSlugs: String(formData.get("tagSlugs") || "")
+          .split(",")
+          .map((item) => item.trim())
+          .filter(Boolean),
+        coverImage: formData.get("coverImage") || undefined,
+        readingTime: formData.get("readingTime") ? Number(formData.get("readingTime")) : undefined,
+        seoTitle: formData.get("seoTitle") || undefined,
+        seoDescription: formData.get("seoDescription") || undefined,
+        videoPlatform: formData.get("videoPlatform") || undefined,
+        videoEmbedUrl: formData.get("videoEmbedUrl") || undefined,
+        bodyMarkdown: formData.get("bodyMarkdown"),
+        featured: formData.get("featured") === "on"
+      };
+
+      try {
+        const target = payload.id ? `/api/admin/contents/${payload.id}` : "/api/admin/contents";
+        const method = payload.id ? "PUT" : "POST";
+        const response = await apiRequest(target, {
+          method,
+          body: JSON.stringify(payload)
+        });
+        if (status) {
+          status.textContent = "保存成功";
+        }
+        if (!payload.id && response.id) {
+          window.history.replaceState({}, "", `/contents/new?id=${response.id}`);
+        }
+      } catch (error) {
+        if (status) {
+          status.textContent = error instanceof Error ? error.message : "保存失败";
+        }
+      }
+    });
+
+    Promise.all([loadCategories(), loadContent()]).catch(() => (window.location.href = "/login"));
+  </script>
+</AdminLayout>

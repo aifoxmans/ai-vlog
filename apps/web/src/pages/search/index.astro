@@ -1,0 +1,41 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import ContentCard from "../../components/ContentCard.astro";
+import { getNavigationData, searchContent } from "../../lib/api";
+
+const [{ navigation, settings }] = await Promise.all([getNavigationData()]);
+const query = Astro.url.searchParams.get("q") || "";
+const results = query ? await searchContent(query) : { items: [], total: 0, query };
+---
+
+<BaseLayout
+  title={`站内搜索 | ${settings.siteName}`}
+  description="搜索标题、摘要、标签与内容关键词。"
+  settings={settings}
+  navigation={navigation}
+  path="/search"
+  noindex={query.length === 0}
+>
+  <section class="site-shell search-panel">
+    <div>
+      <span class="capsule-kicker">Search</span>
+      <h1>搜索站内内容</h1>
+      <p>搜索结果页保留可访问路径，但空查询默认不索引。</p>
+    </div>
+    <form action="/search" method="get">
+      <input name="q" value={query} placeholder="输入关键词，如 SEO / Workers / journal" />
+      <button type="submit">搜索</button>
+    </form>
+    {query && <p>共找到 {results.total} 条与 “{query}” 相关的结果。</p>}
+  </section>
+  {results.items.length > 0 && (
+    <section class="site-shell">
+      <div class="card-grid">
+        {results.items.map((item) => (
+          <ContentCard item={item} compact />
+        ))}
+      </div>
+    </section>
+  )}
+</BaseLayout>
+

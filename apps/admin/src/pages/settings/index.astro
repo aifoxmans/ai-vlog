@@ -1,0 +1,105 @@
+---
+import AdminLayout from "../../layouts/AdminLayout.astro";
+---
+
+<AdminLayout title="Northstar Console | Settings">
+  <div class="toolbar">
+    <div>
+      <span class="admin-kicker">Settings</span>
+      <h1>站点设置</h1>
+      <p>控制品牌名、站点描述和首页核心文案。</p>
+    </div>
+  </div>
+
+  <section class="form-shell">
+    <form id="settings-form" class="form-grid">
+      <div class="field">
+        <label class="field-label" for="siteName">站点名称</label>
+        <input id="siteName" name="siteName" />
+      </div>
+      <div class="field">
+        <label class="field-label" for="siteUrl">站点 URL</label>
+        <input id="siteUrl" name="siteUrl" />
+      </div>
+      <div class="field full">
+        <label class="field-label" for="siteDescription">站点描述</label>
+        <textarea id="siteDescription" name="siteDescription"></textarea>
+      </div>
+      <div class="field full">
+        <label class="field-label" for="heroTitle">首页标题</label>
+        <input id="heroTitle" name="heroTitle" />
+      </div>
+      <div class="field full">
+        <label class="field-label" for="heroSummary">首页摘要</label>
+        <textarea id="heroSummary" name="heroSummary"></textarea>
+      </div>
+      <div class="field">
+        <label class="field-label" for="newsletterTitle">订阅标题</label>
+        <input id="newsletterTitle" name="newsletterTitle" />
+      </div>
+      <div class="field">
+        <label class="field-label" for="newsletterSummary">订阅摘要</label>
+        <input id="newsletterSummary" name="newsletterSummary" />
+      </div>
+      <div class="field">
+        <label class="field-label" for="adminBrand">后台品牌名</label>
+        <input id="adminBrand" name="adminBrand" />
+      </div>
+      <div class="field full">
+        <button class="primary-button" type="submit">保存设置</button>
+        <p id="settings-status" class="status-line"></p>
+      </div>
+    </form>
+  </section>
+
+    <script>
+      import { apiRequest, redirectIfMissingToken } from "../../lib/api.ts";
+
+      redirectIfMissingToken();
+
+      const form = document.getElementById("settings-form") as HTMLFormElement | null;
+      const status = document.getElementById("settings-status") as HTMLParagraphElement | null;
+
+    async function load() {
+      const data = await apiRequest("/api/admin/settings");
+      if (!form) return;
+      Object.entries(data).forEach(([key, value]) => {
+        if (key === "socialLinks") return;
+        const field = form.elements.namedItem(key);
+        if (field instanceof HTMLInputElement || field instanceof HTMLTextAreaElement) {
+          field.value = String(value);
+        }
+      });
+    }
+
+    form?.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      if (!form) return;
+      const formData = new FormData(form);
+      const payload = {
+        ...Object.fromEntries(formData),
+        socialLinks: [
+          { label: "GitHub", href: "https://github.com/" },
+          { label: "RSS", href: "/rss.xml" },
+          { label: "Sitemap", href: "/sitemap.xml" }
+        ]
+      };
+
+      try {
+        await apiRequest("/api/admin/settings", {
+          method: "PUT",
+          body: JSON.stringify(payload)
+        });
+        if (status) {
+          status.textContent = "设置已保存";
+        }
+      } catch (error) {
+        if (status) {
+          status.textContent = error instanceof Error ? error.message : "保存失败";
+        }
+      }
+    });
+
+    load().catch(() => (window.location.href = "/login"));
+  </script>
+</AdminLayout>

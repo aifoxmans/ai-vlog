@@ -1,0 +1,24 @@
+{
+  "name": "@ai-vlog/api",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "tsc --noEmit",
+    "check": "tsc --noEmit",
+    "dev": "wrangler dev src/index.ts --local"
+  },
+  "dependencies": {
+    "@ai-vlog/shared": "0.1.0",
+    "@hono/zod-validator": "^0.7.0",
+    "hono": "^4.8.3",
+    "marked": "^15.0.12",
+    "zod": "^3.25.67"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20260405.0",
+    "typescript": "^5.8.3",
+    "wrangler": "^4.11.1"
+  }
+}
+

@@ -1,0 +1,132 @@
+---
+import AdminLayout from "../../layouts/AdminLayout.astro";
+---
+
+<AdminLayout title="Northstar Console | Taxonomies">
+  <div class="toolbar">
+    <div>
+      <span class="admin-kicker">Taxonomies</span>
+      <h1>分类与标签</h1>
+      <p>分类用于长期结构，标签用于主题聚合。两者都需要稳定 slug。</p>
+    </div>
+  </div>
+
+  <div class="form-grid">
+    <section class="form-shell">
+      <h2>新增分类</h2>
+      <form id="category-form" class="panel-grid">
+        <div class="field">
+          <label class="field-label" for="category-name">名称</label>
+          <input id="category-name" name="name" />
+        </div>
+        <div class="field">
+          <label class="field-label" for="category-slug">Slug</label>
+          <input id="category-slug" name="slug" />
+        </div>
+        <div class="field">
+          <label class="field-label" for="category-section">栏目</label>
+          <select id="category-section" name="section">
+            <option value="learn">learn</option>
+            <option value="venture">venture</option>
+            <option value="showcase">showcase</option>
+            <option value="journal">journal</option>
+            <option value="resources">resources</option>
+          </select>
+        </div>
+        <button class="primary-button" type="submit">保存分类</button>
+      </form>
+    </section>
+
+    <section class="form-shell">
+      <h2>新增标签</h2>
+      <form id="tag-form" class="panel-grid">
+        <div class="field">
+          <label class="field-label" for="tag-name">名称</label>
+          <input id="tag-name" name="name" />
+        </div>
+        <div class="field">
+          <label class="field-label" for="tag-slug">Slug</label>
+          <input id="tag-slug" name="slug" />
+        </div>
+        <button class="primary-button" type="submit">保存标签</button>
+      </form>
+    </section>
+  </div>
+
+  <div class="form-grid" style="margin-top: 1rem;">
+    <section class="list-shell">
+      <h2>当前分类</h2>
+      <div id="category-list"></div>
+    </section>
+    <section class="list-shell">
+      <h2>当前标签</h2>
+      <div id="tag-list"></div>
+    </section>
+  </div>
+
+    <script>
+      import { apiRequest, redirectIfMissingToken } from "../../lib/api.ts";
+
+      redirectIfMissingToken();
+
+      const categoryForm = document.getElementById("category-form") as HTMLFormElement | null;
+      const tagForm = document.getElementById("tag-form") as HTMLFormElement | null;
+      const categoryList = document.getElementById("category-list") as HTMLDivElement | null;
+      const tagList = document.getElementById("tag-list") as HTMLDivElement | null;
+
+      async function load() {
+      const [categories, tags] = await Promise.all([
+        apiRequest("/api/admin/categories"),
+        apiRequest("/api/admin/tags")
+      ]);
+
+      if (!categoryList || !tagList) return;
+      categoryList.innerHTML = (categories as Array<{ section: string; name: string; slug: string }>)
+        .map(
+          (item: { section: string; name: string; slug: string }) => `
+            <article class="list-item">
+              <span class="admin-kicker">${item.section}</span>
+              <strong>${item.name}</strong>
+              <p>${item.slug}</p>
+            </article>`
+        )
+        .join("");
+
+      tagList.innerHTML = (tags as Array<{ name: string; slug: string }>)
+        .map(
+          (item: { name: string; slug: string }) => `
+            <article class="list-item">
+              <strong>${item.name}</strong>
+              <p>${item.slug}</p>
+            </article>`
+        )
+        .join("");
+    }
+
+    categoryForm?.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      if (!categoryForm) return;
+      const formData = new FormData(categoryForm);
+      await apiRequest("/api/admin/categories", {
+        method: "POST",
+        body: JSON.stringify(Object.fromEntries(formData))
+      });
+      categoryForm.reset();
+      await load();
+    });
+
+    tagForm?.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      if (!tagForm) return;
+      const formData = new FormData(tagForm);
+      await apiRequest("/api/admin/tags", {
+        method: "POST",
+        body: JSON.stringify(Object.fromEntries(formData))
+      });
+      tagForm.reset();
+      await load();
+    });
+
+    load().catch(() => (window.location.href = "/login"));
+  </script>
+</AdminLayout>

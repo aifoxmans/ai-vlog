@@ -1,0 +1,34 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import ContentCard from "../../components/ContentCard.astro";
+import SectionHero from "../../components/SectionHero.astro";
+import { getCategoryItems, getNavigationData } from "../../lib/api";
+
+const { slug } = Astro.params;
+const [{ navigation, settings }, data] = await Promise.all([
+  getNavigationData(),
+  getCategoryItems(slug || "")
+]);
+---
+
+<BaseLayout
+  title={`分类 ${slug} | ${settings.siteName}`}
+  description={`查看分类 ${slug} 下的全部内容。`}
+  settings={settings}
+  navigation={navigation}
+  path={`/categories/${slug}`}
+>
+  <SectionHero
+    kicker="Category"
+    title={`分类 / ${slug}`}
+    summary="分类页比标签更稳定，用于承接某一核心主题下的长期内容。"
+  />
+  <section class="site-shell">
+    <div class="card-grid">
+      {data.items.map((item) => (
+        <ContentCard item={item} />
+      ))}
+    </div>
+  </section>
+</BaseLayout>
+

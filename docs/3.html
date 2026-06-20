@@ -1,0 +1,201 @@
+
+<!-- 个人日志与反思 -->
+<!DOCTYPE html>
+
+<html class="light" lang="zh-CN"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Lumina Research | 个人日志与反思</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">tailwind.config = {darkMode: "class", theme: {extend: {colors: {"on-primary-container": "#005b78", "inverse-primary": "#7bd1fa", "surface-container-low": "#f1f3ff", "tertiary-fixed-dim": "#dcb8ff", "surface-container": "#e9edff", "surface-tint": "#006686", "secondary-container": "#bae6ff", "on-secondary-fixed": "#001e2b", "on-tertiary-fixed-variant": "#59367d", outline: "#6f787e", secondary: "#376479", "on-tertiary": "#ffffff", "secondary-fixed": "#c0e8ff", "surface-variant": "#d8e2fd", "surface-bright": "#f9f9ff", "on-surface": "#111b2f", "primary-fixed": "#c0e8ff", "on-error-container": "#93000a", "outline-variant": "#bec8ce", background: "#f9f9ff", "surface-container-lowest": "#ffffff", "on-secondary-container": "#3c687e", error: "#ba1a1a", "on-secondary-fixed-variant": "#1c4c60", "on-primary-fixed-variant": "#004d66", "on-primary-fixed": "#001e2b", tertiary: "#724e97", "on-secondary": "#ffffff", "on-error": "#ffffff", "inverse-on-surface": "#edf0ff", "surface-container-highest": "#d8e2fd", "on-surface-variant": "#3f484e", "surface-container-high": "#e0e8ff", "tertiary-fixed": "#f0dbff", "on-tertiary-fixed": "#2b024f", "primary-fixed-dim": "#7bd1fa", "inverse-surface": "#263045", "primary-container": "#7dd3fc", "tertiary-container": "#ddbaff", "error-container": "#ffdad6", "surface-dim": "#d0daf5", surface: "#f9f9ff", "secondary-fixed-dim": "#a0cde5", primary: "#006686", "on-tertiary-container": "#66438b", "on-primary": "#ffffff", "on-background": "#111b2f"}, borderRadius: {DEFAULT: "0.25rem", lg: "0.5rem", xl: "0.75rem", full: "9999px"}, spacing: {"section-padding": "80px", gutter: "16px", unit: "8px", "margin-mobile": "16px", "container-max": "1200px", "margin-desktop": "48px", md: "16px", base: "8px", margin: "24px", xs: "4px", sm: "8px", xl: "32px", lg: "24px"}, fontFamily: {h2: ["Inter"], "body-md": ["Inter"], "body-lg": ["Inter"], h1: ["Inter"], h3: ["Inter"], "label-caps": ["Inter"], "headline-md": ["Inter"], "headline-lg": ["Inter"], "label-sm": ["Inter"]}, fontSize: {h2: ["32px", {lineHeight: "1.25", letterSpacing: "-0.01em", fontWeight: "700"}], "body-md": ["16px", {lineHeight: "1.6", letterSpacing: "0", fontWeight: "400"}], "body-lg": ["16px", {lineHeight: "1.6", fontWeight: "400"}], h1: ["40px", {lineHeight: "1.2", letterSpacing: "-0.02em", fontWeight: "700"}], h3: ["24px", {lineHeight: "1.3", letterSpacing: "0", fontWeight: "600"}], "label-caps": ["12px", {lineHeight: "1.0", letterSpacing: "0.05em", fontWeight: "600"}], "headline-md": ["24px", {lineHeight: "1.3", fontWeight: "600"}], "headline-lg": ["32px", {lineHeight: "1.2", letterSpacing: "-0.02em", fontWeight: "700"}], "label-sm": ["12px", {lineHeight: "1.0", letterSpacing: "0.05em", fontWeight: "500"}]}}}};</script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            background-color: #f9f9ff;
+            color: #181c23;
+        }
+        .sidebar-item-active {
+            color: #0058bc;
+            background-color: #d8e2ff;
+        }
+    </style>
+</head>
+<body class="font-body-md antialiased">
+<!-- TopNavBar -->
+<header class="sticky top-0 w-full z-50 bg-white/80 dark:bg-gray-950/80 backdrop-blur-md border-b border-gray-100 dark:border-gray-800 shadow-[0_4px_20px_rgba(0,0,0,0.04)]">
+<div class="max-w-[1200px] mx-auto px-6 h-20 flex items-center justify-between font-inter tracking-tight antialiased">
+<div class="text-xl font-bold text-gray-900 dark:text-white tracking-tighter">Lumina Research</div>
+<nav class="hidden md:flex items-center gap-8">
+<a class="text-gray-500 dark:text-gray-400 font-medium hover:text-gray-900 dark:hover:text-gray-200 transition-colors duration-200" href="#">首页</a>
+<a class="text-gray-500 dark:text-gray-400 font-medium hover:text-gray-900 dark:hover:text-gray-200 transition-colors duration-200" href="#">学习</a>
+<a class="text-gray-500 dark:text-gray-400 font-medium hover:text-gray-900 dark:hover:text-gray-200 transition-colors duration-200" href="#">创业</a>
+<a class="text-gray-500 dark:text-gray-400 font-medium hover:text-gray-900 dark:hover:text-gray-200 transition-colors duration-200" href="#">创作</a>
+<a class="text-blue-600 dark:text-blue-400 font-semibold border-b-2 border-blue-600 pb-1" href="#">日志</a>
+<a class="text-gray-500 dark:text-gray-400 font-medium hover:text-gray-900 dark:hover:text-gray-200 transition-colors duration-200" href="#">资源</a>
+</nav>
+<div class="flex items-center gap-4">
+<button class="material-symbols-outlined text-gray-500" data-icon="account_circle">account_circle</button>
+<button class="bg-primary-container text-on-primary-container px-6 py-2 rounded-xl font-semibold active:scale-95 transition-transform">Sign In</button>
+</div>
+</div>
+</header>
+<main class="max-w-[1200px] mx-auto px-6 py-12 flex flex-col md:flex-row gap-12">
+<!-- Sidebar Navigation -->
+<aside class="w-full md:w-64 flex-shrink-0 space-y-8">
+<section>
+<h3 class="font-h3 text-h3 mb-6">回顾归档</h3>
+<nav class="space-y-1">
+<div class="font-label-caps text-label-caps text-outline mb-3 uppercase">2024</div>
+<a class="flex items-center justify-between p-3 rounded-lg sidebar-item-active group transition-all" href="#">
+<span class="font-medium">五月 (May)</span>
+<span class="text-xs opacity-60">12</span>
+</a>
+<a class="flex items-center justify-between p-3 rounded-lg text-secondary hover:bg-surface-container transition-all" href="#">
+<span class="font-medium">四月 (April)</span>
+<span class="text-xs opacity-60">28</span>
+</a>
+<a class="flex items-center justify-between p-3 rounded-lg text-secondary hover:bg-surface-container transition-all" href="#">
+<span class="font-medium">三月 (March)</span>
+<span class="text-xs opacity-60">24</span>
+</a>
+<div class="font-label-caps text-label-caps text-outline mt-6 mb-3 uppercase">2023</div>
+<a class="flex items-center justify-between p-3 rounded-lg text-secondary hover:bg-surface-container transition-all" href="#">
+<span class="font-medium">年度总结</span>
+<span class="material-symbols-outlined text-sm" data-icon="auto_awesome">auto_awesome</span>
+</a>
+</nav>
+</section>
+<section class="p-6 bg-surface-container-low rounded-xl border border-outline-variant/30">
+<h4 class="font-label-caps text-label-caps text-primary mb-2">成长进度</h4>
+<div class="h-1 w-full bg-outline-variant/20 rounded-full overflow-hidden mb-3">
+<div class="h-full bg-primary w-3/4"></div>
+</div>
+<p class="text-[13px] text-on-surface-variant leading-relaxed">本月阅读目标已完成 75%。持续的日志记录有助于思维的结构化。</p>
+</section>
+</aside>
+<!-- Main Content Area -->
+<div class="flex-grow space-y-20">
+<!-- Hero / Section Header -->
+<header>
+<h1 class="font-h1 text-h1 text-on-surface mb-2">个人日志与反思</h1>
+<p class="font-body-lg text-body-lg text-secondary max-w-2xl">一个用于深度聚焦、个人沉淀与智力清晰的极简阅读空间。在这里，记录生长的每一个足迹。</p>
+</header>
+<!-- 长期反思 Section (Bento Inspired Layout) -->
+<section>
+<div class="flex items-center justify-between mb-8 border-b border-outline-variant pb-4">
+<h2 class="font-h2 text-h2 text-on-surface">长期反思</h2>
+<span class="font-label-caps text-label-caps text-primary tracking-widest uppercase">Monthly Summary</span>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+<!-- Featured Reflection Card -->
+<article class="md:col-span-2 bg-white p-10 rounded-xl border border-outline-variant/30 shadow-[0_4px_20px_rgba(0,0,0,0.02)] relative overflow-hidden group">
+<div class="relative z-10">
+<span class="text-primary font-semibold mb-4 block">2024年4月年度展望更新</span>
+<h3 class="font-h2 text-h2 mb-6 leading-tight">在繁杂的信息流中，寻找构建长期知识体系的“锚点”</h3>
+<p class="text-secondary font-body-md mb-8 leading-relaxed">
+                                上个月的实践让我意识到，仅仅记录是不够的。我们需要建立一套“知识熔炼”机制，将碎片化的日常观察转化为具有行动导向的深层反思。本月我重点调整了关于“系统思考”的维度...
+                            </p>
+<button class="flex items-center gap-2 text-primary font-semibold hover:gap-4 transition-all">
+                                阅读全文 <span class="material-symbols-outlined" data-icon="arrow_forward">arrow_forward</span>
+</button>
+</div>
+<div class="absolute top-0 right-0 p-8 opacity-5">
+<span class="material-symbols-outlined text-[120px]" data-icon="description">description</span>
+</div>
+</article>
+<!-- Secondary Metric Card -->
+<div class="flex flex-col gap-6">
+<div class="bg-surface-container-highest p-8 rounded-xl flex flex-col justify-between">
+<h4 class="font-label-caps text-label-caps text-on-surface-variant mb-4 uppercase">本月核心关键词</h4>
+<div class="flex flex-wrap gap-2">
+<span class="bg-white px-3 py-1 rounded-full text-sm border border-outline-variant/30">系统论</span>
+<span class="bg-white px-3 py-1 rounded-full text-sm border border-outline-variant/30">深度工作</span>
+<span class="bg-white px-3 py-1 rounded-full text-sm border border-outline-variant/30">自律</span>
+<span class="bg-white px-3 py-1 rounded-full text-sm border border-outline-variant/30">极简主义</span>
+</div>
+</div>
+<div class="bg-primary p-8 rounded-xl text-on-primary">
+<span class="material-symbols-outlined mb-4" data-icon="lightbulb" data-weight="fill" style="font-variation-settings: 'FILL' 1;">lightbulb</span>
+<p class="font-medium text-lg italic">"简单并不意味着简陋，而是对本质的高度概括。"</p>
+</div>
+</div>
+</div>
+</section>
+<!-- 日常记录 Section (Timeline Style) -->
+<section>
+<div class="flex items-center justify-between mb-8 border-b border-outline-variant pb-4">
+<h2 class="font-h2 text-h2 text-on-surface">日常记录</h2>
+<span class="font-label-caps text-label-caps text-primary tracking-widest uppercase">Daily Logs</span>
+</div>
+<div class="space-y-8 relative before:absolute before:left-4 before:top-4 before:bottom-0 before:w-[1px] before:bg-outline-variant/40">
+<!-- Daily Entry 1 -->
+<div class="relative pl-12 group">
+<div class="absolute left-0 top-1.5 w-8 h-8 rounded-full bg-white border border-primary flex items-center justify-center z-10 group-hover:bg-primary transition-colors">
+<div class="w-2 h-2 rounded-full bg-primary group-hover:bg-white"></div>
+</div>
+<article class="bg-white p-8 rounded-xl border border-outline-variant/30 hover:shadow-md transition-shadow">
+<div class="flex items-center gap-4 mb-4">
+<time class="font-label-caps text-primary">2024.05.15</time>
+<span class="h-1 w-1 rounded-full bg-outline"></span>
+<span class="text-secondary text-sm">星期三</span>
+</div>
+<h4 class="font-h3 text-h3 mb-3">关于“专注力”的一次小规模实验</h4>
+<p class="text-secondary leading-relaxed">
+                                今天尝试在无干扰环境下连续工作 4 小时。发现第一个小时最为痛苦，但进入状态后，思维的流畅度显著提升。这种“心流”状态不仅提高了效率，也带来了极大的心理成就感。
+                            </p>
+</article>
+</div>
+<!-- Daily Entry 2 -->
+<div class="relative pl-12 group">
+<div class="absolute left-0 top-1.5 w-8 h-8 rounded-full bg-white border border-outline-variant flex items-center justify-center z-10 group-hover:border-primary transition-colors">
+<div class="w-2 h-2 rounded-full bg-outline-variant group-hover:bg-primary"></div>
+</div>
+<article class="bg-white p-8 rounded-xl border border-outline-variant/30 hover:shadow-md transition-shadow">
+<div class="flex items-center gap-4 mb-4">
+<time class="font-label-caps text-primary">2024.05.12</time>
+<span class="h-1 w-1 rounded-full bg-outline"></span>
+<span class="text-secondary text-sm">星期日</span>
+</div>
+<h4 class="font-h3 text-h3 mb-3">周日漫步：在自然中寻找灵感</h4>
+<p class="text-secondary leading-relaxed">
+                                城市公园的绿意比屏幕更具治愈力。在湖边静坐半小时，之前的几个逻辑难点突然有了新的切入角度。或许远离屏幕才是解决复杂问题的关键。
+                            </p>
+<div class="mt-6 flex gap-4">
+<div class="w-32 h-24 rounded-lg overflow-hidden bg-surface-container-high border border-outline-variant/30">
+<img alt="Morning dew on leaves in a sunlit park" class="w-full h-full object-cover" data-alt="close-up of morning dew on lush green leaves in a sunlit urban park with soft bokeh background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDkucH7WF2B9IOR9-IgpiOG7H2-BCY9illV8ONZZap9z4Wep6uCYN2UIKNbeC89T1S00nREVhymjdpCslRdWBL8WxdbxB8lda-gu7XswFQhe8Fxu3x2gjpDRtZtBOick9JJt26sdcZLkcnNChVCOgdRF6NDgJQxc_yZjk5X-urKCL5jhXDcMRxI3NJg14Z38CJJyBiwxD7XylttuP6mNYZC5yJeH8IuICazZx7fQzky2F0fnEZCYYJBNZCIVQLrZE39ko0rOTHswBH1"/>
+</div>
+<div class="w-32 h-24 rounded-lg overflow-hidden bg-surface-container-high border border-outline-variant/30">
+<img alt="Calm lake reflection" class="w-full h-full object-cover" data-alt="wide shot of a calm lake surface reflecting clear blue sky and distant willow trees in a minimalist composition" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDRFIWRJS_HCN4DiMiaWqKBwUz1xKVR0YwESlVvziZcgIBlvpuuWBQShFSefJEZYEQWhfQ-Ysi-v9vKdrq0m1tIt9qMKuxXFFfNVbnrgQ_lqQdhUDOnMiJ_DYAcjUvxF9RfxFdF-jnN9WDG8wikKjktm8cKqsMsNDt1q8NRKEag_t-AAwheJHyJ1xZ4X_GTIcj7CjpAzD5YHI0laIRMd7mIQsb5xLX6a3eZmr1d8a5OFS87d6jtdq0kQ_leFJO9EClqheYQhP5DxMhC"/>
+</div>
+</div>
+</article>
+</div>
+</div>
+</section>
+</div>
+</main>
+<!-- Footer -->
+<footer class="w-full py-16 bg-white dark:bg-gray-950 border-t border-gray-100 dark:border-gray-800">
+<div class="max-w-[1200px] mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-8 font-inter text-sm">
+<div class="flex flex-col items-center md:items-start gap-2">
+<div class="font-bold text-gray-900 dark:text-white">Lumina Research System</div>
+<p class="text-gray-400 dark:text-gray-500">© 2024 Lumina Research System. Designed for focus and clarity.</p>
+</div>
+<nav class="flex gap-8">
+<a class="text-gray-400 dark:text-gray-500 hover:text-gray-900 dark:hover:text-gray-200 transition-all" href="#">About AI</a>
+<a class="text-gray-400 dark:text-gray-500 hover:text-gray-900 dark:hover:text-gray-200 transition-all" href="#">Privacy</a>
+<a class="text-gray-400 dark:text-gray-500 hover:text-gray-900 dark:hover:text-gray-200 transition-all" href="#">Methodology</a>
+<a class="text-gray-400 dark:text-gray-500 hover:text-gray-900 dark:hover:text-gray-200 transition-all" href="#">Support</a>
+</nav>
+</div>
+</footer>
+<!-- FAB for New Entry -->
+<button class="fixed bottom-8 right-8 w-14 h-14 bg-primary text-on-primary rounded-full shadow-lg flex items-center justify-center hover:scale-105 active:scale-95 transition-all z-40">
+<span class="material-symbols-outlined" data-icon="add">add</span>
+</button>
+</body></html>

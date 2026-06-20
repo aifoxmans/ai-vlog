@@ -1,0 +1,24 @@
+---
+import type { SiteSettings } from "@ai-vlog/shared";
+
+interface Props {
+  settings: SiteSettings;
+}
+
+const { settings } = Astro.props;
+---
+
+<section class="site-shell">
+  <div class="newsletter-panel">
+    <div>
+      <span class="capsule-kicker">WEEKLY SIGNAL</span>
+      <h2>{settings.newsletterTitle}</h2>
+      <p>{settings.newsletterSummary}</p>
+    </div>
+    <form class="newsletter-form">
+      <input type="email" placeholder="your@email.com" aria-label="邮箱地址" />
+      <button type="button">加入订阅</button>
+    </form>
+  </div>
+</section>
+

@@ -1,0 +1,366 @@
+openapi: 3.1.0
+info:
+  title: AI Vlog API
+  version: 0.1.0
+  description: Public and admin API for the AI Vlog publishing platform.
+servers:
+  - url: http://127.0.0.1:8787
+tags:
+  - name: Capability
+  - name: Public
+  - name: Admin
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+  schemas:
+    JsonObject:
+      type: object
+      additionalProperties: true
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: string
+    LoginRequest:
+      type: object
+      required: [username, password]
+      properties:
+        username:
+          type: string
+        password:
+          type: string
+    LoginResponse:
+      type: object
+      required: [token, user]
+      properties:
+        token:
+          type: string
+        user:
+          type: object
+          properties:
+            username:
+              type: string
+    ContentListResponse:
+      type: object
+      required: [items, total]
+      properties:
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/JsonObject"
+        total:
+          type: integer
+paths:
+  /:
+    get:
+      tags: [Public]
+      summary: API health
+      responses:
+        "200":
+          description: API metadata
+  /api/capabilities:
+    get:
+      tags: [Capability]
+      summary: Machine-readable capability manifest
+      responses:
+        "200":
+          description: Capability manifest
+  /api/skill/manifest:
+    get:
+      tags: [Capability]
+      summary: Skill manifest alias
+      responses:
+        "200":
+          description: Capability manifest
+  /api/openapi.json:
+    get:
+      tags: [Capability]
+      summary: Runtime OpenAPI 3.1 JSON contract
+      responses:
+        "200":
+          description: OpenAPI document
+  /api/public/navigation:
+    get:
+      tags: [Public]
+      summary: Public navigation and settings
+      responses:
+        "200":
+          description: Navigation payload
+  /api/public/home:
+    get:
+      tags: [Public]
+      summary: Home page payload
+      responses:
+        "200":
+          description: Home payload
+  /api/public/sections:
+    get:
+      tags: [Public]
+      summary: Public section overview
+      responses:
+        "200":
+          description: Section overview
+  /api/public/content:
+    get:
+      tags: [Public]
+      summary: Published content list
+      parameters:
+        - name: section
+          in: query
+          schema:
+            type: string
+        - name: tag
+          in: query
+          schema:
+            type: string
+        - name: category
+          in: query
+          schema:
+            type: string
+        - name: search
+          in: query
+          schema:
+            type: string
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            minimum: 1
+      responses:
+        "200":
+          description: Content list
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ContentListResponse"
+  /api/public/content/{slug}:
+    get:
+      tags: [Public]
+      summary: Published content detail
+      parameters:
+        - name: slug
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Content detail
+        "404":
+          description: Not found
+  /api/public/tags:
+    get:
+      tags: [Public]
+      summary: Public tag list
+      responses:
+        "200":
+          description: Tags
+  /api/public/tags/{slug}:
+    get:
+      tags: [Public]
+      summary: Published content by tag
+      parameters:
+        - name: slug
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Tagged content list
+  /api/public/categories:
+    get:
+      tags: [Public]
+      summary: Public category list
+      parameters:
+        - name: section
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Categories
+  /api/public/categories/{slug}:
+    get:
+      tags: [Public]
+      summary: Published content by category
+      parameters:
+        - name: slug
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Category content list
+  /api/public/archive:
+    get:
+      tags: [Public]
+      summary: Monthly archive
+      responses:
+        "200":
+          description: Archive entries
+  /api/public/search:
+    get:
+      tags: [Public]
+      summary: Published content search
+      parameters:
+        - name: q
+          in: query
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Search results
+  /api/admin/auth/login:
+    post:
+      tags: [Admin]
+      summary: Admin login
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/LoginRequest"
+      responses:
+        "200":
+          description: Bearer token
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/LoginResponse"
+        "401":
+          description: Invalid credentials
+  /api/admin/auth/logout:
+    post:
+      tags: [Admin]
+      security:
+        - bearerAuth: []
+      summary: Admin logout
+      responses:
+        "200":
+          description: Logout result
+  /api/admin/dashboard:
+    get:
+      tags: [Admin]
+      security:
+        - bearerAuth: []
+      summary: Dashboard payload
+      responses:
+        "200":
+          description: Dashboard stats and recent content
+  /api/admin/contents:
+    get:
+      tags: [Admin]
+      security:
+        - bearerAuth: []
+      summary: Admin content list
+      responses:
+        "200":
+          description: Content list
+    post:
+      tags: [Admin]
+      security:
+        - bearerAuth: []
+      summary: Create content
+      responses:
+        "200":
+          description: Created content
+  /api/admin/contents/{id}:
+    get:
+      tags: [Admin]
+      security:
+        - bearerAuth: []
+      summary: Admin content detail
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Content detail
+        "404":
+          description: Not found
+    put:
+      tags: [Admin]
+      security:
+        - bearerAuth: []
+      summary: Update content
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Updated content
+    delete:
+      tags: [Admin]
+      security:
+        - bearerAuth: []
+      summary: Delete content
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Delete result
+  /api/admin/categories:
+    get:
+      tags: [Admin]
+      security:
+        - bearerAuth: []
+      summary: Admin categories
+      responses:
+        "200":
+          description: Categories
+    post:
+      tags: [Admin]
+      security:
+        - bearerAuth: []
+      summary: Create or update category
+      responses:
+        "200":
+          description: Category
+  /api/admin/tags:
+    get:
+      tags: [Admin]
+      security:
+        - bearerAuth: []
+      summary: Admin tags
+      responses:
+        "200":
+          description: Tags
+    post:
+      tags: [Admin]
+      security:
+        - bearerAuth: []
+      summary: Create or update tag
+      responses:
+        "200":
+          description: Tag
+  /api/admin/settings:
+    get:
+      tags: [Admin]
+      security:
+        - bearerAuth: []
+      summary: Admin settings
+      responses:
+        "200":
+          description: Settings
+    put:
+      tags: [Admin]
+      security:
+        - bearerAuth: []
+      summary: Update settings
+      responses:
+        "200":
+          description: Settings

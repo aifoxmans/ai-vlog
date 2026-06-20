@@ -1,0 +1,221 @@
+
+<!-- AI 产物展示 -->
+<!DOCTYPE html>
+
+<html lang="zh-CN"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>AI 产物展示 - Lumina Research</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">tailwind.config = {darkMode: "class", theme: {extend: {colors: {"on-primary-container": "#005b78", "inverse-primary": "#7bd1fa", "surface-container-low": "#f1f3ff", "tertiary-fixed-dim": "#dcb8ff", "surface-container": "#e9edff", "surface-tint": "#006686", "secondary-container": "#bae6ff", "on-secondary-fixed": "#001e2b", "on-tertiary-fixed-variant": "#59367d", outline: "#6f787e", secondary: "#376479", "on-tertiary": "#ffffff", "secondary-fixed": "#c0e8ff", "surface-variant": "#d8e2fd", "surface-bright": "#f9f9ff", "on-surface": "#111b2f", "primary-fixed": "#c0e8ff", "on-error-container": "#93000a", "outline-variant": "#bec8ce", background: "#f9f9ff", "surface-container-lowest": "#ffffff", "on-secondary-container": "#3c687e", error: "#ba1a1a", "on-secondary-fixed-variant": "#1c4c60", "on-primary-fixed-variant": "#004d66", "on-primary-fixed": "#001e2b", tertiary: "#724e97", "on-secondary": "#ffffff", "on-error": "#ffffff", "inverse-on-surface": "#edf0ff", "surface-container-highest": "#d8e2fd", "on-surface-variant": "#3f484e", "surface-container-high": "#e0e8ff", "tertiary-fixed": "#f0dbff", "on-tertiary-fixed": "#2b024f", "primary-fixed-dim": "#7bd1fa", "inverse-surface": "#263045", "primary-container": "#7dd3fc", "tertiary-container": "#ddbaff", "error-container": "#ffdad6", "surface-dim": "#d0daf5", surface: "#f9f9ff", "secondary-fixed-dim": "#a0cde5", primary: "#006686", "on-tertiary-container": "#66438b", "on-primary": "#ffffff", "on-background": "#111b2f"}, borderRadius: {DEFAULT: "0.25rem", lg: "0.5rem", xl: "0.75rem", full: "9999px"}, spacing: {"section-padding": "80px", gutter: "16px", unit: "8px", "margin-mobile": "16px", "container-max": "1200px", "margin-desktop": "48px", md: "16px", base: "8px", margin: "24px", xs: "4px", sm: "8px", xl: "32px", lg: "24px"}, fontFamily: {h2: ["Inter"], "body-md": ["Inter"], "body-lg": ["Inter"], h1: ["Inter"], h3: ["Inter"], "label-caps": ["Inter"], "headline-md": ["Inter"], "headline-lg": ["Inter"], "label-sm": ["Inter"]}, fontSize: {h2: ["32px", {lineHeight: "1.25", letterSpacing: "-0.01em", fontWeight: "700"}], "body-md": ["16px", {lineHeight: "1.6", letterSpacing: "0", fontWeight: "400"}], "body-lg": ["16px", {lineHeight: "1.6", fontWeight: "400"}], h1: ["40px", {lineHeight: "1.2", letterSpacing: "-0.02em", fontWeight: "700"}], h3: ["24px", {lineHeight: "1.3", letterSpacing: "0", fontWeight: "600"}], "label-caps": ["12px", {lineHeight: "1.0", letterSpacing: "0.05em", fontWeight: "600"}], "headline-md": ["24px", {lineHeight: "1.3", fontWeight: "600"}], "headline-lg": ["32px", {lineHeight: "1.2", letterSpacing: "-0.02em", fontWeight: "700"}], "label-sm": ["12px", {lineHeight: "1.0", letterSpacing: "0.05em", fontWeight: "500"}]}}}};</script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .bento-grid {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: 24px;
+        }
+        .timeline-border {
+            border-left: 2px solid #E5E5EA;
+        }
+        .glass-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md antialiased">
+<!-- TopNavBar -->
+<nav class="sticky top-0 w-full z-50 bg-white/80 dark:bg-gray-950/80 backdrop-blur-md border-b border-gray-100 dark:border-gray-800 shadow-[0_4px_20px_rgba(0,0,0,0.04)]">
+<div class="max-w-[1200px] mx-auto px-6 h-20 flex items-center justify-between">
+<div class="flex items-center gap-12">
+<span class="text-xl font-bold text-gray-900 dark:text-white tracking-tighter">Lumina Research</span>
+<div class="hidden md:flex items-center gap-8">
+<a class="text-gray-500 dark:text-gray-400 font-medium hover:text-gray-900 dark:hover:text-gray-200 transition-colors duration-200" href="#">首页</a>
+<a class="text-gray-500 dark:text-gray-400 font-medium hover:text-gray-900 dark:hover:text-gray-200 transition-colors duration-200" href="#">学习</a>
+<a class="text-gray-500 dark:text-gray-400 font-medium hover:text-gray-900 dark:hover:text-gray-200 transition-colors duration-200" href="#">创业</a>
+<a class="text-blue-600 dark:text-blue-400 font-semibold border-b-2 border-blue-600 pb-1" href="#">创作</a>
+<a class="text-gray-500 dark:text-gray-400 font-medium hover:text-gray-900 dark:hover:text-gray-200 transition-colors duration-200" href="#">日志</a>
+<a class="text-gray-500 dark:text-gray-400 font-medium hover:text-gray-900 dark:hover:text-gray-200 transition-colors duration-200" href="#">资源</a>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<div class="relative hidden sm:block">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline text-sm">search</span>
+<input class="pl-10 pr-4 py-2 bg-surface-container-low border-none rounded-full text-sm focus:ring-2 focus:ring-primary w-64" placeholder="搜索 AI 产物..." type="text"/>
+</div>
+<button class="flex items-center gap-2 px-5 py-2 bg-primary text-on-primary rounded-full font-semibold active:scale-95 transition-transform">
+<span class="material-symbols-outlined text-lg">account_circle</span>
+<span>Sign In</span>
+</button>
+</div>
+</div>
+</nav>
+<main class="max-w-[1200px] mx-auto px-6 py-section-padding">
+<!-- Hero Section -->
+<header class="mb-16">
+<h1 class="font-h1 text-h1 text-on-surface mb-4">AI 产物展示</h1>
+<p class="text-on-surface-variant font-body-lg max-w-2xl">探索人工智能在绘画、音乐与写作领域的卓越成就。每一个作品背后都蕴含着人机协作的无限灵感与创新路径。</p>
+<div class="flex flex-wrap gap-3 mt-8">
+<button class="px-6 py-2 rounded-full bg-primary text-on-primary font-semibold">全部产物</button>
+<button class="px-6 py-2 rounded-full bg-surface-container text-on-surface-variant hover:bg-surface-container-high transition-colors">AI 绘画</button>
+<button class="px-6 py-2 rounded-full bg-surface-container text-on-surface-variant hover:bg-surface-container-high transition-colors">AI 音乐</button>
+<button class="px-6 py-2 rounded-full bg-surface-container text-on-surface-variant hover:bg-surface-container-high transition-colors">AI 写作</button>
+</div>
+</header>
+<!-- Gallery Bento Grid -->
+<div class="bento-grid">
+<!-- Large Feature Card (AI Painting) -->
+<div class="col-span-12 lg:col-span-8 group relative overflow-hidden rounded-xl border border-outline-variant bg-surface-container-lowest shadow-[0_4px_20px_rgba(0,0,0,0.04)]">
+<div class="aspect-[16/9] w-full relative">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="abstract digital art with fluid blue and gold gradients in a futuristic surrealist style with cinematic lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA8m1dEfXZZcCj8wpq4d3gXxl6vMXEI38g_oljUDqoYyzSCxuQalGuNYmNTz9SJ0n0L7-vyFHSDH5Otgv9s0i7HbvjvHk4YOtXPIqH0EgwfX-QYP0GjLdHKtnNPzVrrtZDDZjf-BFrMbsyxQ2O3pEP9KvXH6IpxBgf0A3JX5uTQx0u75z7_86gsBjOS621HCvT9pigOc4v7FCXQGUK6sjjIO8T9i3lONPKQ91QUeVLojzPB2s2Coc0x0jt2c0dGE8NARWSQKXuPTDX3"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+<div class="absolute bottom-8 left-8 text-white">
+<span class="inline-block px-3 py-1 bg-primary text-[10px] uppercase tracking-widest font-bold rounded mb-4">AI 绘画 / 视觉艺术</span>
+<h2 class="font-h2 text-h2 mb-2">幻像之网：赛博空间的重构</h2>
+<p class="text-white/80 max-w-lg">利用 Stable Diffusion XL 与 ControlNet 深度解析几何与流体力学的边界。</p>
+</div>
+</div>
+<div class="p-8">
+<div class="flex items-center justify-between mb-6">
+<div class="flex items-center gap-4">
+<div class="flex -space-x-2">
+<div class="w-8 h-8 rounded-full border-2 border-white bg-secondary-fixed"></div>
+<div class="w-8 h-8 rounded-full border-2 border-white bg-primary-fixed"></div>
+</div>
+<span class="text-sm font-semibold text-on-surface">Lumina Creative Lab</span>
+</div>
+<button class="flex items-center gap-2 text-primary font-semibold hover:gap-3 transition-all">
+                            查看创作过程 <span class="material-symbols-outlined">arrow_forward</span>
+</button>
+</div>
+<div class="grid grid-cols-3 gap-6 pt-6 border-t border-outline-variant">
+<div>
+<span class="block text-label-caps text-outline mb-1 uppercase">核心工具</span>
+<span class="text-sm font-bold text-on-surface">Midjourney V6 + Lora</span>
+</div>
+<div>
+<span class="block text-label-caps text-outline mb-1 uppercase">提示词策略</span>
+<span class="text-sm font-bold text-on-surface">迭代式动态演进</span>
+</div>
+<div>
+<span class="block text-label-caps text-outline mb-1 uppercase">渲染时长</span>
+<span class="text-sm font-bold text-on-surface">120+ 小时训练</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Small Card 1 (AI Music) -->
+<div class="col-span-12 lg:col-span-4 group rounded-xl border border-outline-variant bg-surface-container-lowest overflow-hidden flex flex-col shadow-[0_4px_20px_rgba(0,0,0,0.04)]">
+<div class="aspect-square relative">
+<img class="w-full h-full object-cover" data-alt="close-up of vintage vinyl record player and audio equipment with soft warm mood lighting and grain" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBY5usNG5n8cXZTisi_Zibf2RqLfpclPATcuNC2cupmVfL4j9Zvpl650HngPqsjIHY435pejJuAWClnpJRN06GSxho2eOcW0hcyHkjhY5dGl7BQ7tB3GkbvqQLJ5ZEYBKIf2wP3kV0iNxbiH7IcHC7xqOHPPt1yGSioKPN6HSAKcmlyPq9RqGpPXw8XpBx3Pl0iM1CRbMpTiif69dAKjk5TN_kOVcZl694p_ZgpjKDqlJSWVSPTAD8mukM8zwL-FOCnMF2qxVuim-dE"/>
+<div class="absolute top-4 right-4 bg-white/90 backdrop-blur-md p-2 rounded-full">
+<span class="material-symbols-outlined text-primary" data-weight="fill">play_circle</span>
+</div>
+</div>
+<div class="p-6 flex-1 flex flex-col">
+<span class="text-label-caps text-primary mb-2">AI 音乐 / 环境音</span>
+<h3 class="font-h3 text-h3 mb-3">午夜霓虹下的数学韵律</h3>
+<p class="text-sm text-on-surface-variant mb-6 line-clamp-3">基于 Transformer 架构的旋律生成，完美融合爵士乐与合成器潮流的实验性作品。</p>
+<div class="mt-auto flex items-center justify-between">
+<span class="text-xs text-outline">Suno AI + Ableton</span>
+<button class="p-2 rounded-lg bg-surface-container-low hover:bg-primary-fixed-dim transition-colors">
+<span class="material-symbols-outlined text-sm">more_vert</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Detail Section: Process Insight (Writing) -->
+<div class="col-span-12 lg:col-span-5 bg-white border border-outline-variant rounded-xl p-8 shadow-[0_4px_20px_rgba(0,0,0,0.04)]">
+<div class="flex items-center gap-3 mb-8">
+<span class="material-symbols-outlined text-primary">auto_stories</span>
+<h3 class="font-h3 text-h3">创作过程：数字叙事</h3>
+</div>
+<div class="space-y-8 timeline-border pl-6 relative">
+<div class="relative">
+<div class="absolute -left-[31px] top-1 w-4 h-4 rounded-full bg-primary ring-4 ring-primary-fixed"></div>
+<h4 class="font-bold text-on-surface mb-2">1. 概念孵化 (Inspiration)</h4>
+<p class="text-sm text-on-surface-variant leading-relaxed">设定“后人类时代”的世界观，利用 GPT-4 辅助构建复杂的非线性叙事逻辑与人物冲突。</p>
+</div>
+<div class="relative">
+<div class="absolute -left-[31px] top-1 w-4 h-4 rounded-full bg-outline-variant ring-4 ring-surface-container"></div>
+<h4 class="font-bold text-on-surface mb-2">2. 递归提示 (Refining)</h4>
+<p class="text-sm text-on-surface-variant leading-relaxed">通过 24 轮迭代提示词，精准捕捉文本的情绪基调，实现意识流风格的自动化输出。</p>
+</div>
+<div class="relative">
+<div class="absolute -left-[31px] top-1 w-4 h-4 rounded-full bg-outline-variant ring-4 ring-surface-container"></div>
+<h4 class="font-bold text-on-surface mb-2">3. 风格迁移 (Styling)</h4>
+<p class="text-sm text-on-surface-variant leading-relaxed">接入特定文学大师的风格数据库，对生成文本进行精细化的语调微调与节奏控制。</p>
+</div>
+</div>
+<div class="mt-10 p-6 bg-surface-container-low rounded-lg border-l-4 border-primary">
+<p class="text-sm italic text-on-surface-variant">"AI 不是取代了笔，而是延伸了我们的想象力边界。"</p>
+</div>
+</div>
+<!-- Image Grid for Writing -->
+<div class="col-span-12 lg:col-span-7 grid grid-cols-2 gap-4">
+<div class="rounded-xl overflow-hidden h-[300px] border border-outline-variant">
+<img class="w-full h-full object-cover" data-alt="close-up of a person writing in a notebook with soft focus background and natural morning light" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAw2GQvX2c3uuUm0HI6sPADV7HDPTNCvcrR3mOn83zB1H9yGoJHYQiY8QNrREiJ0F-mzloRrEQ2hXcPD86XdYnRLYIEbvIoPL6OxEbGBxcnq1TfmvP-TaMW5766zLr8x0L16fX4zlNmK1IQfsC6zECnITVsb3BWszjFLCr3f17CCixGRw_WSJ7yszCrVuJSLpivWOqdhMxC6sg2z8M14nhzLJG8AZA5dqSv-zPNIbp0LbVBjMKcJUlWTcgRtU1W_rQsKwoEymW9hsvq"/>
+</div>
+<div class="rounded-xl overflow-hidden h-[300px] border border-outline-variant">
+<img class="w-full h-full object-cover" data-alt="minimalist workspace with open laptop and notebook on wooden desk with soft cinematic lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAstfV9kLmjb5sv9PKEMlae6lgx0u1Jwnn3WDHyFSM6FNlTl1_jCc0wmBbXop9rCtA9F5CmoD3l6Deni1IlE0KvTgTsXqsC3xoIv5_xi2EeQXZ7rEOX4vJvoSniyvYh7QRT9NYOamWzENFxIfoJUIdZu1Q9BKVpxHnUhoIA1HrR_MnfWhV0QFWKMBV8vsRpdxWGW2CzIxG0AILnnd715DP8gkudA_q3-6osSyWXiL4terfCf7JhzhAFdawPaAQe1KIAsIDGgSMfIyRL"/>
+</div>
+<div class="col-span-2 glass-card p-8 rounded-xl border border-outline-variant">
+<div class="flex items-center justify-between">
+<div>
+<h4 class="text-xl font-bold text-on-surface mb-1">《流光记忆》</h4>
+<p class="text-sm text-on-surface-variant">由 Claude 3.5 Opus 与人类协作完成的短篇科幻集</p>
+</div>
+<button class="px-6 py-2 border-2 border-on-surface font-bold rounded hover:bg-on-surface hover:text-white transition-all">阅读作品</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Metric Section -->
+<section class="mt-24 py-16 px-12 bg-surface-container rounded-2xl flex flex-col md:flex-row justify-between items-center gap-12">
+<div class="text-center md:text-left">
+<h2 class="font-h2 text-h2 mb-2">正在增长的创作生态</h2>
+<p class="text-on-surface-variant">实时追踪 Lumina 社区内的 AI 创新步伐</p>
+</div>
+<div class="flex gap-16">
+<div class="text-center">
+<span class="block text-[40px] font-extrabold text-primary mb-1">1,240+</span>
+<span class="text-label-caps text-outline uppercase">入库作品</span>
+</div>
+<div class="text-center">
+<span class="block text-[40px] font-extrabold text-primary mb-1">85</span>
+<span class="text-label-caps text-outline uppercase">AI 模型应用</span>
+</div>
+<div class="text-center">
+<span class="block text-[40px] font-extrabold text-primary mb-1">15.2k</span>
+<span class="text-label-caps text-outline uppercase">创作者协作</span>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="w-full py-16 border-t border-gray-100 dark:border-gray-800 bg-white dark:bg-gray-950">
+<div class="max-w-[1200px] mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-8">
+<div class="flex flex-col gap-4 items-center md:items-start">
+<span class="font-bold text-gray-900 dark:text-white">Lumina Research System</span>
+<p class="text-sm text-gray-400 dark:text-gray-500 max-w-xs text-center md:text-left">© 2024 Lumina Research System. Designed for focus and clarity.</p>
+</div>
+<div class="flex gap-10">
+<a class="text-sm font-medium text-gray-400 dark:text-gray-500 hover:text-gray-900 dark:hover:text-gray-200 transition-all" href="#">About AI</a>
+<a class="text-sm font-medium text-gray-400 dark:text-gray-500 hover:text-gray-900 dark:hover:text-gray-200 transition-all" href="#">Privacy</a>
+<a class="text-sm font-medium text-gray-400 dark:text-gray-500 hover:text-gray-900 dark:hover:text-gray-200 transition-all" href="#">Methodology</a>
+<a class="text-sm font-medium text-gray-400 dark:text-gray-500 hover:text-gray-900 dark:hover:text-gray-200 transition-all" href="#">Support</a>
+</div>
+</div>
+</footer>
+<!-- FAB (Back to Top) -->
+<button class="fixed bottom-8 right-8 w-14 h-14 bg-primary text-on-primary rounded-full shadow-lg flex items-center justify-center active:scale-95 transition-transform">
+<span class="material-symbols-outlined">expand_less</span>
+</button>
+</body></html>

@@ -1,0 +1,176 @@
+---
+import DocPageLayout from "../../layouts/DocPageLayout.astro";
+import { getArchiveItems, getSectionPageData } from "../../lib/api";
+import {
+  formatDateDot,
+  formatMonthLabel,
+  itemHref,
+  itemImage
+} from "../../lib/public-ui";
+
+const [{ navigation, settings, meta, items, tags }, archive] = await Promise.all([
+  getSectionPageData("journal"),
+  getArchiveItems()
+]);
+const lead = items[0];
+const logs = items.slice(0, 3);
+---
+
+<DocPageLayout
+  title={`${meta.label} | ${settings.siteName}`}
+  description={meta.summary}
+  settings={settings}
+  navigation={navigation}
+  path={meta.href}
+  mainClass="max-w-[1200px] mx-auto px-6 py-12"
+>
+  <div class="flex flex-col gap-12 md:flex-row">
+    <aside class="w-full flex-shrink-0 space-y-8 md:w-64">
+      <section>
+        <h3 class="mb-6 font-h3 text-h3">回顾归档</h3>
+        <nav class="space-y-1">
+          <div class="mb-3 font-label-caps text-label-caps uppercase text-outline">Recent</div>
+          {archive.slice(0, 4).map((entry, index) => (
+            <a
+              href="/archive"
+              class:list={[
+                "flex items-center justify-between rounded-lg p-3 transition-all",
+                index === 0
+                  ? "bg-[#d8e2ff] text-primary"
+                  : "text-secondary hover:bg-surface-container"
+              ]}
+            >
+              <span class="font-medium">{formatMonthLabel(`${entry.month}-01`)}</span>
+              <span class="text-xs opacity-60">{entry.count}</span>
+            </a>
+          ))}
+        </nav>
+      </section>
+
+      <section class="rounded-xl border border-outline-variant/30 bg-surface-container-low p-6">
+        <h4 class="mb-2 font-label-caps text-label-caps text-primary">成长进度</h4>
+        <div class="mb-3 h-1 w-full overflow-hidden rounded-full bg-outline-variant/20">
+          <div class="h-full w-3/4 bg-primary"></div>
+        </div>
+        <p class="text-[13px] leading-relaxed text-on-surface-variant">
+          本栏目当前累计 {meta.count} 条公开反思，最近一次更新于 {lead ? formatDateDot(lead.updatedAt || lead.publishedAt) : "近期"}。
+        </p>
+      </section>
+    </aside>
+
+    <div class="flex-grow space-y-20">
+      <header>
+        <h1 class="mb-2 font-h1 text-h1 text-on-surface">{meta.label}</h1>
+        <p class="max-w-2xl font-body-lg text-body-lg text-secondary">{meta.summary}</p>
+      </header>
+
+      {lead && (
+        <section>
+          <div class="mb-8 flex items-center justify-between border-b border-outline-variant pb-4">
+            <h2 class="font-h2 text-h2 text-on-surface">长期反思</h2>
+            <span class="font-label-caps text-label-caps uppercase tracking-widest text-primary">
+              Monthly Summary
+            </span>
+          </div>
+          <div class="grid grid-cols-1 gap-6 md:grid-cols-3">
+            <a
+              href={itemHref(lead)}
+              class="group relative overflow-hidden rounded-xl border border-outline-variant/30 bg-white p-10 shadow-[0_4px_20px_rgba(0,0,0,0.02)] md:col-span-2"
+            >
+              <div class="relative z-10">
+                <span class="mb-4 block font-semibold text-primary">
+                  {formatMonthLabel(lead.publishedAt || lead.updatedAt)}
+                </span>
+                <h3 class="mb-6 font-h2 text-h2 leading-tight">{lead.title}</h3>
+                <p class="mb-8 font-body-md leading-relaxed text-secondary">{lead.excerpt}</p>
+                <span class="flex items-center gap-2 font-semibold text-primary transition-all group-hover:gap-4">
+                  阅读全文 <span class="material-symbols-outlined">arrow_forward</span>
+                </span>
+              </div>
+              <div class="absolute right-0 top-0 p-8 opacity-5">
+                <span class="material-symbols-outlined text-[120px]">description</span>
+              </div>
+            </a>
+
+            <div class="flex flex-col gap-6">
+              <div class="rounded-xl bg-surface-container-highest p-8">
+                <h4 class="mb-4 font-label-caps text-label-caps uppercase text-on-surface-variant">本月核心关键词</h4>
+                <div class="flex flex-wrap gap-2">
+                  {tags.slice(0, 4).map((tag) => (
+                    <a href={`/tags/${tag.slug}`} class="rounded-full border border-outline-variant/30 bg-white px-3 py-1 text-sm">
+                      {tag.name}
+                    </a>
+                  ))}
+                </div>
+              </div>
+              <div class="rounded-xl bg-primary p-8 text-on-primary">
+                <span class="material-symbols-outlined mb-4" style="font-variation-settings: 'FILL' 1">
+                  lightbulb
+                </span>
+                <p class="text-lg font-medium italic">
+                  "{lead.excerpt}"
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
+      )}
+
+      <section>
+        <div class="mb-8 flex items-center justify-between border-b border-outline-variant pb-4">
+          <h2 class="font-h2 text-h2 text-on-surface">日常记录</h2>
+          <span class="font-label-caps text-label-caps uppercase tracking-widest text-primary">
+            Daily Logs
+          </span>
+        </div>
+        <div class="relative space-y-8 before:absolute before:bottom-0 before:left-4 before:top-4 before:w-[1px] before:bg-outline-variant/40">
+          {logs.map((item, index) => (
+            <div class="group relative pl-12">
+              <div class:list={[
+                "absolute left-0 top-1.5 z-10 flex h-8 w-8 items-center justify-center rounded-full bg-white border transition-colors",
+                index === 0 ? "border-primary" : "border-outline-variant"
+              ]}>
+                <div class:list={[
+                  "h-2 w-2 rounded-full",
+                  index === 0 ? "bg-primary" : "bg-outline-variant"
+                ]}></div>
+              </div>
+              <a
+                href={itemHref(item)}
+                class="block rounded-xl border border-outline-variant/30 bg-white p-8 transition-shadow hover:shadow-md"
+              >
+                <div class="mb-4 flex items-center gap-4">
+                  <time class="font-label-caps text-primary">{formatDateDot(item.publishedAt || item.updatedAt)}</time>
+                  <span class="h-1 w-1 rounded-full bg-outline"></span>
+                  <span class="text-sm text-secondary">{item.tags[0]?.name || "Reflection"}</span>
+                </div>
+                <h4 class="mb-3 font-h3 text-h3">{item.title}</h4>
+                <p class="leading-relaxed text-secondary">{item.excerpt}</p>
+                {index === 1 && (
+                  <div class="mt-6 flex gap-4">
+                    <div class="h-24 w-32 overflow-hidden rounded-lg border border-outline-variant/30 bg-surface-container-high">
+                      <img class="h-full w-full object-cover" src={itemImage(item, item.tags[0]?.name)} alt={item.title} />
+                    </div>
+                    <div class="h-24 w-32 overflow-hidden rounded-lg border border-outline-variant/30 bg-surface-container-high">
+                      <img class="h-full w-full object-cover" src={itemImage(item, item.tags[1]?.name)} alt={item.title} />
+                    </div>
+                  </div>
+                )}
+              </a>
+            </div>
+          ))}
+        </div>
+      </section>
+    </div>
+  </div>
+
+  {lead && (
+    <a
+      href={itemHref(lead)}
+      class="fixed bottom-8 right-8 z-40 flex h-14 w-14 items-center justify-center rounded-full bg-primary text-on-primary shadow-lg transition-all hover:scale-105 active:scale-95"
+      aria-label="阅读最新日志"
+    >
+      <span class="material-symbols-outlined">add</span>
+    </a>
+  )}
+</DocPageLayout>

@@ -1,0 +1,23 @@
+{
+  "name": "ai-vlog-platform",
+  "private": true,
+  "version": "0.1.0",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "devDependencies": {
+    "@types/node": "^22.15.19"
+  },
+  "scripts": {
+    "build": "npm run build --workspaces --if-present",
+    "check": "npm run check --workspaces --if-present",
+    "smoke:api": "node skills/ai-vlog-publisher/scripts/api_smoke.mjs",
+    "dev:web": "npm run dev -w @ai-vlog/web",
+    "dev:admin": "npm run dev -w @ai-vlog/admin",
+    "dev:api": "npm run dev -w @ai-vlog/api"
+  },
+  "engines": {
+    "node": ">=20.16.0"
+  }
+}
