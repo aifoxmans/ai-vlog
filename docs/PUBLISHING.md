@@ -9,6 +9,7 @@ This repository exposes two publishable surfaces:
 
 ```bash
 npm install
+cp apps/api/.dev.vars.example apps/api/.dev.vars
 npm run dev:api
 npm run dev:web
 npm run dev:admin
@@ -59,12 +60,19 @@ Local login body:
 }
 ```
 
-Production should override credentials through Workers variables:
+Production uses `ADMIN_USERNAME` from `apps/api/wrangler.toml` and an `ADMIN_PASSWORD` Worker secret. The local `admin123` fallback is disabled in production.
 
-- `ADMIN_USERNAME`
-- `ADMIN_PASSWORD`
+## Cloudflare Workers Deployment
 
-Production should also replace placeholder Cloudflare resource IDs in `apps/api/wrangler.toml`.
+The repository deploys three Workers to the `aiid.qzz.io` zone:
+
+- Public site: `https://vlog.aiid.qzz.io` (`apps/web`)
+- API: `https://api-vlog.aiid.qzz.io` (`apps/api`)
+- Admin UI: `https://admin-vlog.aiid.qzz.io/login` (`apps/admin`)
+
+`apps/api/wrangler.toml` binds the dedicated `ai-vlog` D1 database and `ai-vlog-cache` and `ai-vlog-sessions` KV namespaces. The GitHub workflow `.github/workflows/deploy-workers.yml` runs checks and builds on a GitHub runner, applies D1 migrations, deploys the API, admin, and public Workers, then checks their URLs. It runs on pushes to `master` and can be started manually.
+
+Configure these GitHub Actions secrets: `CF_ACCOUNT_ID`, `CF_API_TOKEN`, and `ADMIN_PASSWORD`. Configure these repository variables: `PUBLIC_API_BASE_URL=https://api-vlog.aiid.qzz.io` and `PUBLIC_ADMIN_APP_URL=https://admin-vlog.aiid.qzz.io/login`. The Cloudflare token needs permission to deploy Workers and apply D1 migrations in the account and manage Worker custom domains for `aiid.qzz.io`. Keep the password in both the GitHub secret and the API Worker's `ADMIN_PASSWORD` secret.
 
 ## Verification
 
@@ -89,6 +97,6 @@ npm run smoke:api -- https://api.example.com
 - Static `docs/api/openapi.yaml` is included in the release artifact.
 - Skill folder validates with `quick_validate.py`.
 - Admin credentials are not the local defaults in production.
-- Wrangler D1/KV IDs are real production resources.
+- D1/KV bindings point to the dedicated production resources.
 - Web `PUBLIC_API_BASE_URL` points to the published API.
 - Web `PUBLIC_ADMIN_APP_URL` points to the published admin UI.

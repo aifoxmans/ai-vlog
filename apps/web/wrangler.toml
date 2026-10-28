@@ -1,0 +1,20 @@
+name = "ai-vlog-web"
+main = "./dist/_worker.js/index.js"
+compatibility_date = "2026-10-28"
+compatibility_flags = ["nodejs_compat", "global_fetch_strictly_public"]
+workers_dev = true
+
+[[routes]]
+pattern = "vlog.aiid.qzz.io"
+custom_domain = true
+
+[[kv_namespaces]]
+binding = "SESSION"
+id = "fd9bf0998eda4cbd8fc0bae557af4b3c"
+
+[assets]
+binding = "ASSETS"
+directory = "./dist"
+
+[observability]
+enabled = true

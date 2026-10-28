@@ -1,20 +1,26 @@
 name = "ai-vlog-api"
 main = "src/index.ts"
 compatibility_date = "2026-04-22"
+workers_dev = true
+
+[[routes]]
+pattern = "api-vlog.aiid.qzz.io"
+custom_domain = true
 
 [[d1_databases]]
 binding = "DB"
 database_name = "ai-vlog"
-database_id = "replace-with-real-database-id"
+database_id = "0598e3c1-eaf8-46ee-b06f-f1e3bdae724c"
 
 [[kv_namespaces]]
 binding = "CACHE"
-id = "replace-with-real-cache-kv-id"
+id = "04beb9460b9d41f885140af639b07ef5"
 
 [[kv_namespaces]]
 binding = "SESSIONS"
-id = "replace-with-real-session-kv-id"
+id = "fd9bf0998eda4cbd8fc0bae557af4b3c"
 
 [vars]
 ADMIN_USERNAME = "admin"
-ADMIN_PASSWORD = "admin123"
+ENVIRONMENT = "production"
+SITE_URL = "https://vlog.aiid.qzz.io"

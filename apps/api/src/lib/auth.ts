@@ -8,6 +8,8 @@ export interface ApiEnv {
     SESSIONS?: KVNamespace;
     ADMIN_USERNAME?: string;
     ADMIN_PASSWORD?: string;
+    ENVIRONMENT?: string;
+    SITE_URL?: string;
   };
   Variables: {
     session: {
@@ -24,7 +26,7 @@ const FALLBACK_TOKEN = "mock-admin-token";
 export function getConfiguredCredentials(c: Context<ApiEnv>) {
   return {
     username: c.env.ADMIN_USERNAME || FALLBACK_USERNAME,
-    password: c.env.ADMIN_PASSWORD || FALLBACK_PASSWORD
+    password: c.env.ADMIN_PASSWORD || (c.env.ENVIRONMENT === "production" ? undefined : FALLBACK_PASSWORD)
   };
 }
 

@@ -225,6 +225,9 @@ app.get("/api/public/search", async (c) => {
 app.post("/api/admin/auth/login", zValidator("json", loginSchema), async (c) => {
   const body = c.req.valid("json");
   const { username, password } = getConfiguredCredentials(c);
+  if (!password) {
+    return c.json({ error: "Admin password is not configured" }, 503);
+  }
 
   if (body.username !== username || body.password !== password) {
     return c.json({ error: "Invalid credentials" }, 401);

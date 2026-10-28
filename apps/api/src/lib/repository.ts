@@ -201,12 +201,13 @@ export async function listNavigation(): Promise<NavigationItem[]> {
 }
 
 export async function getSiteSettings(env: ApiEnv["Bindings"]): Promise<SiteSettings> {
-  if (!env.CACHE) {
-    return getMockSettings();
-  }
-
-  const settings = await env.CACHE.get("site:settings", "json");
-  return (settings as SiteSettings) || getMockSettings();
+  const settings = env.CACHE
+    ? (await env.CACHE.get("site:settings", "json")) as SiteSettings | null
+    : null;
+  const resolved = settings || getMockSettings();
+  return resolved.siteUrl === "https://example.com" && env.SITE_URL
+    ? { ...resolved, siteUrl: env.SITE_URL }
+    : resolved;
 }
 
 export async function updateSiteSettings(
